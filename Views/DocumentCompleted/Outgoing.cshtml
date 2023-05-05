@@ -1,0 +1,118 @@
+﻿@using DMS.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<System_departments> system_departments = ViewData["system_departments"] as IEnumerable<System_departments>;
+    IEnumerable<System_divisions> system_divisions = ViewData["system_divisions"] as IEnumerable<System_divisions>;
+    IEnumerable<System_reference_group_values> document_types = ViewData["document_types"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<System_reference_group_values> document_statuses = ViewData["document_statuses"] as IEnumerable<System_reference_group_values>;
+    Documents document = ViewData["document"] as Documents;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2>Send to Outgoing</h2>
+        <hr />
+        <form id="form" class="form-horizontal" method='POST' action='' enctype="multipart/form-data">
+            <input type="hidden" id="id" name="id" value="@document.id" />
+            <div class="form-group row">
+                <label for="reference_number" class="col-sm-2 col-form-label">Reference # & Title</label>
+                <div class="col-sm-2 pb-2">
+                    <input type="text" id="reference_number" name="reference_number" class="form-control" placeholder="Enter reference number" value="@document.reference_number" readonly>
+                </div>
+                <div class="col-sm-2 pb-2">
+                    <input type="text" id="routing_number" name="routing_number" class="form-control" placeholder="Enter routing number" value="@document.routing_number" readonly>
+                </div>
+                <div class="col-sm-6 pb-2">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Enter document title" value="@document.title" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="document_remarks" class="col-sm-2 col-form-label">Document Description</label>
+                <div class="col-sm-10 pb-2">
+                    <textarea id="document_remarks" name="document_remarks" class="form-control" rows="2" placeholder="Enter description here..." readonly>@document.remarks</textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="route_date" class="col-sm-2 col-form-label">Date & Time</label>
+                <div class="col-sm-2 pb-2">
+                    <input type="date" id="route_date" name="route_date" class="form-control">
+                </div>
+                <div class="col-sm-2 pb-2">
+                    <input type="time" id="route_time" name="route_time" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <select id="document_type" name="document_type" class="form-control" disabled>
+                            <option value="0" @(document.rgv_document_type_id == 0 ? "selected" : "")>--SELECT DOCUMENT TYPE--</option>
+                            @foreach (var item in document_types)
+                            {
+                                <option value="@item.id" @(document.rgv_document_type_id == item.id ? "selected" : "")>@item.name</option>
+                            }
+                        </select>
+                        <input type="hidden" id="rgv_document_type_id" name="rgv_document_type_id" value="@document.rgv_document_type_id" />
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <select id="rgv_document_status_id" name="rgv_document_status_id" class="form-control">
+                            <option value="0">--SELECT DOCUMENT STATUS--</option>
+                            @foreach (var item in document_statuses)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="to_system_department_id" class="col-sm-2 col-form-label">Receiving Department</label>
+                <div class="col-sm-4 pb-2">
+                    <div class="form-group">
+                        <select id="to_system_department_id" name="to_system_department_id" class="form-control">
+                            <option value="0">--SELECT ALL--</option>
+                            @foreach (var item in system_departments)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4 pb-2">
+                    <div class="form-group">
+                        <select id="to_system_division_id" name="to_system_division_id" class="form-control">
+                            <option value="0">--SELECT ALL--</option>
+                            @foreach (var item in system_divisions)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" id="to_name" name="to_name" class="form-control" placeholder="Received by">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="attachments" class="col-sm-2 col-form-label">Upload attachments</label>
+                <div class="col-sm-10 pb-2">
+                    <input type="file" id="attachments" name="attachments[]" class="form-control" multiple>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="route_remarks" class="col-sm-2 col-form-label">Outgoing Remarks</label>
+                <div class="col-sm-10 pb-2">
+                    <textarea id="route_remarks" name="route_remarks" class="form-control" rows="2" placeholder="Enter remarks here..."></textarea>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center">
+                <a href="@Url.Action("Index","DocumentCompleted")" class="btn btn-danger">Back</a>
+                &nbsp;
+                &nbsp;
+                <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

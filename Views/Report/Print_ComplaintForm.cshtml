@@ -1,0 +1,648 @@
+﻿@using DMS.Models;
+
+@{ 
+    Reports report = ViewData["report"] as Reports;
+    Victims victim = ViewData["victim"] as Victims;
+    IEnumerable<Suspects> suspects = ViewData["suspects"] as IEnumerable<Suspects>;
+    Witnesses witness = ViewData["witness"] as Witnesses;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/img/cicc logo.png"
+          type="image/x-icon">
+    <title>CICC - Print Complaint Form</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/dist/css/pages/report/print_complaint_form.css">
+    <style type="text/css">
+        body{
+            font-family: Arial;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%" cellspacing="10" style="border-collapse: unset;">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 70%; text-align: center;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center; font-size: .75rem;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center; background-color: black; color: #FFBF00">TLP: AMBER</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <img width="100%" src="~/dist/img/cicc-banner-final.png">
+            </div>
+            <div class="col-md-12 pt-1 text-center">
+                <h2><strong>COMPLAINT FORM</strong></h2>
+            </div>
+            <div class="col-md-12 mb-2">
+                <div style="width: 100%; border: solid 2px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="width: 10%;">Time:</td>
+                            <td style="width: 10%;"><strong>@(report.time_received)</strong></td>
+                            <td style="width: 10%;">Date:</td>
+                            <td style="width: 30%;"><strong>@(report.date_received)</strong></td>
+                            <td style="text-align: right;">Reference Number:</td>
+                            <td style="text-align: right;"><strong>@(report.reference_number)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="width: 100%; border: solid 5px #a7a7a7;"></div>
+                <label class="pl-2 pr-2" style="background-color: #a7a7a7; font-size: 1.3rem;">VICTIM'S DATA: </label>
+            </div>
+        </div>
+        @if (suspects.Count() <= 0)
+        {
+            <br />
+            <br />
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 10%;">Name:</td>
+                                <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(victim.last_name)</strong>&nbsp;</td>
+                                <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(victim.first_name)</strong>&nbsp;</td>
+                                <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(victim.middle_name)</strong>&nbsp;</td>
+                                <td style="width: 15%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(victim.rgv_age_bracket_name)</strong>&nbsp;</td>
+                                <td style="width: 15%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(victim.rgv_marital_status_name)</strong>&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: .75rem;">
+                                <td style="width: 10%;"></td>
+                                <td style="width: 20%; text-align: center;">Surname</td>
+                                <td style="width: 20%; text-align: center;">First Name</td>
+                                <td style="width: 20%; text-align: center;">Middle Name</td>
+                                <td style="width: 15%; text-align: center;">Age</td>
+                                <td style="width: 15%; text-align: center;">Status</td>
+                            </tr>
+                        </tbody>    
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 10%;">Address:</td>
+                                <td colspan="6" style="border-bottom: 1px solid;">&nbsp;<strong>@(victim.address1)</strong>&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: .75rem;">
+                                <td style="width: 10%;"></td>
+                                <td style="width: 30%; text-align: center;">House/Block/Lot No.</td>
+                                <td style="width: 20%; text-align: center;">Street</td>
+                                <td style="width: 20%; text-align: center;">Subdivision</td>
+                                <td style="width: 20%; text-align: center;">Village</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 10%;"></td>
+                                <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(victim.city_name)</strong>&nbsp;</td>
+                                <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(victim.province_code)</strong>&nbsp;</td>
+                                <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(victim.country_name)</strong>&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: .75rem;">
+                                <td style="width: 10%;"></td>
+                                <td style="width: 30%; text-align: center;">City</td>
+                                <td style="width: 30%; text-align: center;">Province</td>
+                                <td style="width: 30%; text-align: center;">Country</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 20%;">Telephone/Mobile No:</td>
+                                <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong>@(victim.mobile_number)</strong>&nbsp;</td>
+
+                            </tr>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 20%;">Email Address:</td>
+                                <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong>@(victim.email)</strong>&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @if (suspects.Count() <= 0)
+        {
+            <br />
+            <br />
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <div style="width: 100%; border: solid 5px #a7a7a7;"></div>
+                <label class="pl-2 pr-2" style="background-color: #a7a7a7; font-size: 1.3rem;">SUSPECT'S DATA: </label>
+            </div>
+        </div>
+        @if (suspects.Count() <= 0)
+        {
+            <br />
+            <br />
+        }
+        @if (suspects.Count() > 0)
+        {
+            foreach (var item in suspects)
+            {
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;">Name:</td>
+                                        <td style="width: 90%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(item.full_name)</strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 90%; text-align: center;">Full Name</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;">Address:</td>
+                                        <td colspan="6" style="border-bottom: 1px solid;">&nbsp;<strong>@(item.address1)&nbsp;</strong></td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; text-align: center;">House/Block/Lot No.</td>
+                                        <td style="width: 20%; text-align: center;">Street</td>
+                                        <td style="width: 20%; text-align: center;">Subdivision</td>
+                                        <td style="width: 20%; text-align: center;">Village</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(item.city_name)&nbsp;</strong></td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(item.province_code)&nbsp;</strong></td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(item.country_name)&nbsp;</strong></td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; text-align: center;">City</td>
+                                        <td style="width: 30%; text-align: center;">Province</td>
+                                        <td style="width: 30%; text-align: center;">Country</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 20%;">Telephone/Mobile No:</td>
+                                        <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong>@(item.mobile_number)</strong>&nbsp;</td>
+
+                                    </tr>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 20%;">Email Address:</td>
+                                        <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong>@(item.email)</strong>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;">Name:</td>
+                                        <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 15%; text-align: center;">Surname</td>
+                                        <td style="width: 15%; text-align: center;">First Name</td>
+                                        <td style="width: 15%; text-align: center;">Middle Name</td>
+                                        <td style="width: 15%; text-align: center;">Name Extension</td>
+                                        <td style="width: 15%; text-align: center;">Age</td>
+                                        <td style="width: 15%; text-align: center;">Status</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;">Address:</td>
+                                        <td colspan="6" style="border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; text-align: center;">House/Block/Lot No.</td>
+                                        <td style="width: 20%; text-align: center;">Street</td>
+                                        <td style="width: 20%; text-align: center;">Subdivision</td>
+                                        <td style="width: 20%; text-align: center;">Village</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; text-align: center;">City</td>
+                                        <td style="width: 30%; text-align: center;">Province</td>
+                                        <td style="width: 30%; text-align: center;">Country</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 20%;">Telephone/Mobile No:</td>
+                                        <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong></strong>&nbsp;</td>
+
+                                    </tr>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 20%;">Email Address:</td>
+                                        <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div style="opacity: 0;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;">Name:</td>
+                                        <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 15%; text-align: center;">Surname</td>
+                                        <td style="width: 15%; text-align: center;">First Name</td>
+                                        <td style="width: 15%; text-align: center;">Middle Name</td>
+                                        <td style="width: 15%; text-align: center;">Name Extension</td>
+                                        <td style="width: 15%; text-align: center;">Age</td>
+                                        <td style="width: 15%; text-align: center;">Status</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;">Address:</td>
+                                        <td colspan="6" style="border-bottom: 1px solid;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; text-align: center;">House/Block/Lot No.</td>
+                                        <td style="width: 20%; text-align: center;">Street</td>
+                                        <td style="width: 20%; text-align: center;">Subdivision</td>
+                                        <td style="width: 20%; text-align: center;">Village</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong></strong>&nbsp;</td>
+                                        <td style="width: 30%; border-bottom: 1px solid; text-align: center;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                    <tr style="font-size: .75rem;">
+                                        <td style="width: 10%;"></td>
+                                        <td style="width: 30%; text-align: center;">City</td>
+                                        <td style="width: 30%; text-align: center;">Province</td>
+                                        <td style="width: 30%; text-align: center;">Country</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-1">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <table width="100%">
+                                <tbody>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 20%;">Telephone/Mobile No:</td>
+                                        <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong></strong>&nbsp;</td>
+
+                                    </tr>
+                                    <tr style="font-size: 1rem;">
+                                        <td style="width: 20%;">Email Address:</td>
+                                        <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong></strong>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+
+        }
+        @if (suspects.Count() <= 0)
+        {
+            <br />
+            <br />
+        }
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <div style="width: 100%; border: solid 5px #a7a7a7;"></div>
+                <label class="pl-2 pr-2" style="background-color: #a7a7a7; font-size: 1.3rem;">WITNESS' DATA: </label>
+            </div>
+        </div>
+        @if (suspects.Count() <= 0)
+        {
+            <br />
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 10%;">Name:</td>
+                                <td style="width: 70%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(witness.full_name)</strong>&nbsp;</td>
+                                <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(witness.rgv_age_bracket_name)</strong>&nbsp;</td>
+                                <td style="width: 10%; text-align: center; border-bottom: 1px solid;">&nbsp;<strong>@(witness.rgv_marital_status_name)</strong>&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: .75rem;">
+                                <td style="width: 10%;"></td>
+                                <td style="width: 60%; text-align: center;">Full Name</td>
+                                <td style="width: 15%; text-align: center;">Age</td>
+                                <td style="width: 15%; text-align: center;">Status</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 10%;">Address:</td>
+                                <td colspan="6" style="border-bottom: 1px solid; text-align: center;">&nbsp;<strong>@(witness.full_address)</strong>&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: .75rem;">
+                                <td style="width: 10%;"></td>
+                                <td colspan="6" style="text-align: center;">&nbsp;Full Address&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 20%;">Telephone/Mobile No:</td>
+                                <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong>@(witness.mobile_number)</strong>&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 20%;">Email Address:</td>
+                                <td style="width: 80%; border-bottom: 1px solid; text-align: left;">&nbsp;<strong>@(witness.email)</strong>&nbsp;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        @*@if (suspects.Count() <= 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea rows="12">
+
+                    </textarea>
+                </div>
+
+            </div>
+        }*@
+        @if (suspects.Count() <= 0)
+        {
+            <br />
+            <br />
+            <br />
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <div style="width: 100%; border: solid 2px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%" cellspacing="10" style="border-collapse: unset;">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 70%; text-align: center;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center; font-size: .75rem;">CIO FORM 001.2</td>
+                                <td style="width: 15%; text-align: center; background-color: black; color: #FFBF00">TLP: AMBER</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%" cellspacing="10" style="border-collapse: unset;">
+                        <tbody>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 70%; text-align: center;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center; font-size: .75rem;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center; background-color: black; color: #FFBF00">TLP: AMBER</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 pt-1 text-center">
+                <h2><strong>STATEMENT OF FACTS</strong></h2>
+            </div>
+            <div class="col-md-12 mb-2">
+                <div style="width: 100%; border: solid 2px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <textarea style="border: none; text-align:left; width:100%; padding: 0;" rows="45">@(report.description_of_incident)</textarea>
+            </div>
+            <div class="col-md-12 mb-2">
+                <div style="width: 100%; border: solid 2px;"></div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <table width="100%" cellspacing="10" style="border-collapse: unset;">
+                        <tbody>
+                            <tr style="font-size: 1.5rem; padding: 1rem;">
+                                <td style="width: 50%; text-align: center; border-bottom: 1px solid;">&nbsp;</td>
+                                <td style="width: 20%; text-align: center; border-bottom: 1px solid;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center;">&nbsp;</td>
+                                <td style="width: 15%; text-align: center;">&nbsp;</td>
+                            </tr>
+                            <tr style="font-size: 1rem;">
+                                <td style="width: 50%; text-align: center;">Signature over Printed Name</td>
+                                <td style="width: 20%; text-align: center;">Date</td>
+                                <td style="width: 15%; text-align: center; font-size: .75rem;">CIO FORM 001.2</td>
+                                <td style="width: 15%; text-align: center; background-color: black; color: #FFBF00">TLP: AMBER</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/dist/js/adminlte.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            window.onafterprint = window.close;
+            window.print();
+        });
+    </script>
+</body>
+</html>
+
+    

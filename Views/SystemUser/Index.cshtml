@@ -1,0 +1,105 @@
+﻿@model IEnumerable<DMS.Models.System_users>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<DMS.Models.System_departments> system_departments = ViewData["system_departments"] as IEnumerable<DMS.Models.System_departments>;
+    IEnumerable<DMS.Models.System_divisions> system_divisions = ViewData["system_divisions"] as IEnumerable<DMS.Models.System_divisions>;
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h3>Datatable</h3>
+            <a href="@Url.Action("Create","SystemUser")" class="btn btn-secondary"><i class="fa fa-plus"></i>&nbsp; Create</a>
+        </div>
+        <hr />
+        <div class="row" hidden>
+            <div class="col-md-4">
+                <label for="system_department_id">Department</label>
+                <div class="form-group">
+                    <select id="system_department_id" name="system_department_id" class="form-control">
+                        <option value="0">--SELECT ALL--</option>
+                        @foreach (var item in system_departments)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="system_division_id">Division</label>
+                <div class="form-group">
+                    <select id="system_division_id" name="system_division_id" class="form-control">
+                        <option value="0">--SELECT ALL--</option>
+                        @foreach (var item in system_divisions)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <table id="table" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Reference Number
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Job Title
+                    </th>
+                    <th>
+                        Office
+                    </th>
+                    <th>
+                        Division
+                    </th>
+                    <th width="10%">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reference_number)
+                    </td>
+                    <td>
+                        @item.last_name,&nbsp;@item.first_name&nbsp;@item.middle_name
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.job_title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.department_code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.division_code)
+                    </td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Edit", "SystemUser", new {id = item.id})" class="btn btn-primary">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a id="delete" href="javascript:void(0);" data-id="@item.id" class="btn btn-danger btn-primary">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+

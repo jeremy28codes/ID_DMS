@@ -1,0 +1,429 @@
+﻿@using DMS.Models;
+
+@{ 
+    System_users sys_user_data = ViewData["sys_user_data"] as System_users;
+    IEnumerable<System_user_time_logs> time_logs = ViewData["time_logs"] as IEnumerable<System_user_time_logs>;
+    var dtr_range = ViewData["dtr_range"];
+    var in_charge = ViewData["in_charge"];
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/img/cicc logo.png"
+          type="image/x-icon">
+    <title>CICC - DMS | Print By Department</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/css/pages/time_logs_individual/time_logs_individual.css">  
+    <style type="text/css">
+        .grd_head {
+            grid-area: header;
+        }
+
+        .grd_menu {
+            grid-area: menu;
+        }
+
+        .grd_main {
+            grid-area: main;
+        }
+
+        .grd_right {
+            grid-area: right;
+        }
+
+        .grd_footer {
+            grid-area: footer;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-areas:
+                'header header header header header header'
+                'menu main main main right right'
+                'menu footer footer footer footer footer';
+            /*border: 1px solid black;*/
+            padding: 10px;
+        }
+
+        .grid-container > div {
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript" hidden>
+        const base_url = "@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")";
+    </script>
+</head>
+<body>
+    <div class="grid-container">
+        <div style="display: flex; flex-direction: column; font-family: Arial;">
+            <div>
+                <img width="100%" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/img/cicc-banner-final.png">
+            </div>
+            <div class="ml-2 mt-2" style="text-align: left; ">
+                <h5 style="font-size: 13px;"><i>Civil Service Form no. 48</i></h5>
+            </div>
+            <div class="ml-2 mr-2" style="display: flex; flex-direction: row; flex-wrap: wrap; flex: 100%;">
+                <div style="/*border: 1px solid black;*/ padding: 10px; flex: 50%;">
+                    <h5><b>DAILY TIME RECORD</b></h5>
+                    <h6 class="mb-3">-----o0o-----</h6>
+                    <table border="0" width="100%" style="padding: 0; margin:0;">
+                        <tr>
+                            <td style="width:15%;"></td>
+                            <td style="border-bottom: 1px solid black;">
+                                <strong>
+                                    @sys_user_data.last_name.ToUpper(), @sys_user_data.first_name.ToUpper() @(sys_user_data.middle_name.ToString() != "" ? sys_user_data.middle_name.ToUpper().Substring(0, 1) + "." : "")
+                                </strong>
+                            </td>
+                            <td style="width:15%;"></td>
+                        </tr>
+                    </table>
+                    <p>(Name)</p>
+                    <table border="0" width="100%" style="padding: 0; margin:0; font-size: 13px;">
+                        <tr>
+                            <td style="width: 40%;">
+                                <i>
+                                    For the month of
+                                </i>
+                            </td>
+                            <td style="border-bottom: 1px solid black; width: 60%;">
+                                <b>
+                                    <i>
+                                        @dtr_range
+                                    </i>
+                                </b>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="mb-2" border="0" width="100%" style="padding: 0; margin: 0; font-size: 13px;">
+                        <tr>
+                            <td class="pt-2" style="width: 50%; text-align: center;">
+                                <i>Official hours for</i>
+                            </td>
+                            <td class="pt-2 pr-3" style="text-align:right;">
+                                Regular days
+                            </td>
+                            <td class="pt-2" style="width: 20%; border-bottom: 1px solid black;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 50%; text-align: center;">
+                                <i>arrival and departure</i>
+                            </td>
+                            <td class="pr-3" style="text-align:right;">
+                                Saturdays
+                            </td>
+                            <td style="width: 20%; border-bottom: 1px solid black;">
+                            </td>
+                        </tr>
+                    </table>
+                    <table border="1" width="100%" style="padding: 0; margin:0; font-size: 11px;">
+                        <tr>
+                            <td rowspan="2" style="width: 10%; text-align: center;">
+                                <strong>Day</strong>
+                            </td>
+                            <td colspan="2" style="width: 30%; text-align: center;">
+                                <strong>AM</strong>
+                            </td>
+                            <td colspan="2" style="width: 30%; text-align: center;">
+                                <strong>PM</strong>
+                            </td>
+                            <td rowspan="2" style="width: 15%; text-align: center;">
+                                <strong>Undertime</strong>
+                            </td>
+                            <td rowspan="2" style="width: 15%; text-align: center;">
+                                <strong>Overtime</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%; text-align: center;">
+                                <strong>Arrival</strong>
+                            </td>
+                            <td style="width: 15%; text-align: center; ">
+                                <strong>Departure</strong>
+                            </td>
+                            <td style="width: 15%; text-align: center; ">
+                                <strong>Arrival</strong>
+                            </td>
+                            <td style="width: 15%; text-align: center; ">
+                                <strong>Departure</strong>
+                            </td>
+                        </tr>
+                        @foreach (var item in time_logs)
+                        {
+                            if (item.dt_day == 99)
+                            {
+                                <tr>
+                                    <td class="pr-2 pt-1" colspan="5" style="text-align: right">
+                                        <strong>
+                                            TOTAL
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            @item.sundertime
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            @item.sovertime
+                                        </strong>
+                                    </td>
+                                </tr>
+                            }
+                            else if (item.day_of_the_week == "Saturday" || item.day_of_the_week == "Sunday")
+                            {
+                                <tr>
+                                    <td>
+                                        @item.dt_day
+                                    </td>
+                                    <td class="pt-1" colspan="6" style="text-align: center; color: red;">
+                                        @(item.day_of_the_week == "Saturday" ? "SATURDAY" : "SUNDAY")
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                if (item.is_included == 1)
+                                {
+                                    if (item.sAM_log_in == "" && item.sPM_log_out != "")
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.dt_day
+                                            </td>
+                                            <td colspan="2">
+                                            </td>
+                                            <td>
+                                                @item.sPM_log_in
+                                            </td>
+                                            <td>
+                                                @item.sPM_log_out
+                                            </td>
+                                            <td>
+                                                @(item.sundertime != "" ? item.sundertime : "0m")
+                                            </td>
+                                            <td>
+                                                @(item.sovertime != "" ? item.sovertime : "0m")
+                                            </td>
+                                        </tr>
+                                    }
+                                    else if (item.sAM_log_in != "" && item.sPM_log_out == "")
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.dt_day
+                                            </td>
+                                            <td>
+                                                @item.sAM_log_in
+                                            </td>
+                                            <td>
+                                                @item.sAM_log_out
+                                            </td>
+                                            <td colspan="2">
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else if (item.sAM_log_in == "" && item.sPM_log_out == "")
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.dt_day
+                                            </td>
+                                            <td class="pt-1" colspan="6" style="text-align: center;">
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.dt_day
+                                            </td>
+                                            <td>
+                                                @item.sAM_log_in
+                                            </td>
+                                            <td>
+                                                @item.sAM_log_out
+                                            </td>
+                                            <td>
+                                                @item.sPM_log_in
+                                            </td>
+                                            <td>
+                                                @item.sPM_log_out
+                                            </td>
+                                            <td>
+                                                @(item.sundertime != "" ? item.sundertime : "0m")
+                                            </td>
+                                            <td>
+                                                @(item.sovertime != "" ? item.sovertime : "0m")
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.dt_day
+                                        </td>
+                                        <td>
+                                            N/A
+                                        </td>
+                                        <td>
+                                            N/A
+                                        </td>
+                                        <td>
+                                            N/A
+                                        </td>
+                                        <td>
+                                            N/A
+                                        </td>
+                                        <td>
+                                            N/A
+                                        </td>
+                                        <td>
+                                            N/A
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </table>
+                    <div style="font-size: 13px;">
+                        <p>
+                            <i>
+                                I certify on my honor that the above is a true and correct report of
+                                the hours of work performed, record of which was made daily at the
+                                time of arrival and departure from office.
+                            </i>
+                        </p>
+                    </div>
+                </div>
+                <div style="/*border: 1px solid black;*/ padding: 10px; flex: 50%;">
+                </div>
+            </div>
+            <div class="ml-2 mr-2 mb-0" style="display: flex; flex-direction: row; flex-wrap: wrap; flex: 100%;">
+                <div style="padding: 10px; flex: 50%;">
+                    <table border="0" width="100%" style="padding: 0; margin:0;">
+                        <tr>
+                            <td style="width:15%;"></td>
+                            <td style="border-bottom: 1px solid black;">
+                                <strong>
+                                    @sys_user_data.last_name.ToUpper(), @sys_user_data.first_name.ToUpper() @(sys_user_data.middle_name.ToString() != "" ? sys_user_data.middle_name.ToUpper().Substring(0, 1) + "." : "")
+                                </strong>
+                            </td>
+                            <td style="width:15%;"></td>
+                        </tr>
+                    </table>
+                    <p>(Employee)</p>
+                </div>
+                <div style="padding: 10px; flex: 50%;">
+                </div>
+            </div>
+            <table class="mb-4" border="0" width="100%">
+                <tr>
+                    <td width="50%" style="text-align: left; font-size: 11px;">
+                        VERIFIED as to the prescribed office hours:
+                    </td>
+                    <td width="25%" style="text-align: left; font-size: 11px;">
+                    </td>
+                    <td width="25%" style="text-align: center; font-size: 11px;">
+                        Prepared and printed by:
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%" style="text-align: left; font-size: 11px;">
+                    </td>
+                    <td width="25%" style="text-align: left; font-size: 11px;">
+                    </td>
+                    <td width="25%" style="text-align: center; font-size: 11px;">
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
+            <table border="0" width="100%">
+                <tr>
+                    <td width="50%" style="text-align: center;">
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <div class="ml-2 mr-2" style="display: flex; flex-direction: row; flex-wrap: wrap; flex: 100%;">
+                                        <div style="padding: 10px; flex: 100%;">
+                                            <table border="0" width="100%" style="padding: 0; margin:0;">
+                                                <tr>
+                                                    <td style="width:15%;"></td>
+                                                    <td style="border-bottom: 1px solid black;">
+                                                        <strong>
+                                                            @in_charge.ToString().ToUpper()
+                                                        </strong>
+                                                    </td>
+                                                    <td style="width:15%;"></td>
+                                                </tr>
+                                            </table>
+                                            <p>(In Charge)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td width="25%" style="text-align: left; font-size: 11px;">
+                    </td>
+                    <td width="25%" style="text-align: center; font-size: 13px; padding: 0; margin: 0;">
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <div class="ml-2 mr-2" style="display: flex; flex-direction: row; flex-wrap: wrap; flex: 100%;">
+                                        <div style="padding: 10px; flex: 100%;">
+                                            <table border="0" width="100%" style="padding: 0; margin:0;">
+                                                <tr>
+                                                    <td style="border-bottom: 1px solid black;">
+                                                        <strong>
+                                                            MARK JOSEPH VERDADERO
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <label class="mb-0">Administrative Officer II</label>
+                                            <label class="mb-0">Administrative Division</label>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+
+    <script type="text/javascript" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script type="text/javascript" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/js/adminlte.min.js"></script>
+    <script type="text/javascript" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/js/demo.js"></script>
+    @*<script type="text/javascript" src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/js/pages/time_logs_individual/time_logs_individual.js"></script>*@
+    <script type="text/javascript"> 
+        $(document).ready(function () {
+            window.onafterprint = window.close;
+            window.print();
+        });
+    </script>
+
+</body>
+</html>
+
+

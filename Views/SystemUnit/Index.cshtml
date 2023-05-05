@@ -1,0 +1,80 @@
+﻿@model IEnumerable<DMS.Models.System_units>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h3>Datatable</h3>
+            <a href="@Url.Action("Create","SystemUnit")" class="btn btn-secondary"><i class="fa fa-plus"></i>&nbsp; Create</a>
+        </div>
+        <hr />
+        <table id="table" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Code
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th width="10%">
+                        Sequence
+                    </th>
+                    <th>
+                        Department
+                    </th>
+                    <th>
+                        Division
+                    </th>
+                    <th width="10%">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ctr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.system_department_code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.system_division_code)
+                    </td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Edit", "SystemUnit", new {id = item.id})" class="btn btn-primary">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a id="delete" href="javascript:void(0);" data-id="@item.id" class="btn btn-danger btn-primary">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

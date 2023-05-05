@@ -1,0 +1,11 @@
+﻿@model IEnumerable<DMS.Models.System_user_role_section_access>
+
+@foreach (var item in Model)
+{
+    <li class="nav-item">
+        <a href="@Url.Action("Index",item.system_web_section_link)" class="nav-link @(Session["active_section"].ToString()==item.system_web_section_name?"active":"")">
+            <i class="nav-icon @item.system_web_section_icon"></i>
+            <p>@item.system_web_section_name</p>
+        </a>
+    </li>
+}

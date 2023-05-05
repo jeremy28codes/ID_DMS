@@ -1,0 +1,60 @@
+﻿@using DMS.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<System_departments> system_departments = ViewData["system_departments"] as IEnumerable<System_departments>;
+    IEnumerable<System_divisions> system_divisions = ViewData["system_divisions"] as IEnumerable<System_divisions>;
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h2>Print by Department</h2>
+        <hr />
+        <form id="form" >
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label" for="system_department_id">Department</label>
+                    <div class="form-group">
+                        <select id="system_department_id" name="system_department_id" class="form-control">
+                            <option value="0">--NO SELECTION--</option>
+                            @foreach (var item in system_departments)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="system_division_id">Division</label>
+                    <div class="form-group">
+                        <select id="system_division_id" name="system_division_id" class="form-control">
+                            <option value="0">--NO SELECTION--</option>
+                            @foreach (var item in system_divisions)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="date_from">Date From</label>
+                        <input type="date" id="date_from" name="date_from" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="date_to">Date To</label>
+                        <input type="date" id="date_to" name="date_to" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="btnPrint">&nbsp;</label>
+                    <button id="btnPrint" name="btnPrint" type="submit" class="btn btn-block btn-success">Print</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

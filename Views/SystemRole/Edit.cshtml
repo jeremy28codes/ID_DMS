@@ -1,0 +1,279 @@
+﻿@using DMS.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<System_web_modules> ma_system_web_modules_not_exists = ViewData["ma_system_web_modules_not_exists"] as IEnumerable<System_web_modules>;
+    IEnumerable<System_user_role_module_access> ma_system_web_modules_exists = ViewData["ma_system_web_modules_exists"] as IEnumerable<System_user_role_module_access>;
+
+    IEnumerable<System_web_modules> sa_system_web_modules_not_exists = ViewData["sa_system_web_modules_not_exists"] as IEnumerable<System_web_modules>;
+    IEnumerable<System_web_sections> sa_system_web_sections_not_exists = ViewData["sa_system_web_sections_not_exists"] as IEnumerable<System_web_sections>;
+    IEnumerable<System_user_role_section_access> sa_system_web_sections_exists = ViewData["sa_system_web_sections_exists"] as IEnumerable<System_user_role_section_access>;
+    
+    System_roles system_role = ViewData["system_role"] as System_roles;
+
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">System Role</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <strong>Code</strong>
+
+                        <p class="text-muted">
+                            @system_role.code
+                        </p>
+
+                        <hr>
+
+                        <strong> Name</strong>
+
+                        <p class="text-muted">@system_role.name</p>
+
+                        <hr>
+
+                        <strong>Description</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-danger">@system_role.description</span>
+                        </p>
+
+                        <hr>
+                        <a href="@Url.Action("Index","SystemRole")" class="btn btn-danger">Back</a>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#edit" data-toggle="tab">Edit</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#module_access" data-toggle="tab">Web Module Access</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#section_access" data-toggle="tab">Web Section Access</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="edit">
+                                <form id="form" class="form-horizontal">
+                                    <input type="hidden" id="id" name="id" value="@system_role.id" />
+                                    <div class="form-group row">
+                                        <label for="code" class="col-sm-2 col-form-label">Code</label>
+                                        <div class="col-sm-10 pb-2">
+                                            <input type="text" id="code" name="code" class="form-control" placeholder="Enter code" value="@(system_role.code)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-10 pb-2">
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter name" value="@(system_role.name)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea id="description" name="description" class="form-control" placeholder="Enter description here.." rows="2">@(system_role.description)</textarea>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group justify-content-center row">
+                                        <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane" id="module_access">
+                                @if (ma_system_web_modules_not_exists.Count() > 0)
+                                {
+                                    <form id="ma_form">
+                                        <input type="hidden" id="ma_id" name="ma_id" value="@system_role.id" />
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="ma_system_web_module_id">System Web Modules</label>
+                                                <div class="form-group">
+                                                    <select id="ma_system_web_module_id" name="ma_system_web_module_id" style="width:100%;" class="form-control">
+                                                        <option value="0">--SELECT ALL--</option>
+                                                        @foreach (var item in ma_system_web_modules_not_exists)
+                                                        {
+                                                            <option value="@item.id">@item.name</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="ma_can_access">Can access?</label>
+                                                    <select id="ma_can_access" name="ma_can_access" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="ma_can_create">Can create?</label>
+                                                    <select id="ma_can_create" name="ma_can_create" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="ma_can_view">Can view?</label>
+                                                    <select id="ma_can_view" name="ma_can_view" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="ma_can_edit">Can edit?</label>
+                                                    <select id="ma_can_edit" name="ma_can_edit" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="ma_can_delete">Can delete?</label>
+                                                    <select id="ma_can_delete" name="ma_can_delete" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="maBtnAdd">&nbsp;</label>
+                                                    <div class="form-group">
+                                                        <button id="maBtnAdd" name="maBtnAdd" type="submit" class="btn btn-block btn-success"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                }
+                                <table id="ma_table" class="table table-bordered table-hover">
+                                    @Html.Action("UpdateModuleTable", "SystemRole", new { system_role_id = @system_role.id })
+                                </table>
+                            </div>
+
+                            <div class="tab-pane" id="section_access">
+                                <form id="sa_form">
+                                    <input type="hidden" id="sa_id" name="sa_id" value="@system_role.id" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="sa_system_web_module_id">System Web Modules</label>
+                                            <div class="form-group">
+                                                <select id="sa_system_web_module_id" name="sa_system_web_module_id" style="width:100%;" class="form-control">
+                                                    <option value="0">--SELECT ALL--</option>
+                                                    @foreach (var item in sa_system_web_modules_not_exists)
+                                                    {
+                                                        <option value="@item.id">@item.name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="sa_system_web_section_id">System Web Section</label>
+                                            <div class="form-group">
+                                                <select id="sa_system_web_section_id" name="sa_system_web_section_id" style="width:100%;" class="form-control">
+                                                    <option value="0">--SELECT ALL--</option>
+                                                    @foreach (var item in sa_system_web_sections_not_exists)
+                                                    {
+                                                        <option value="@item.id">@item.name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (sa_system_web_sections_not_exists.Count() > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="sa_can_access">Can access?</label>
+                                                    <select id="sa_can_access" name="sa_can_access" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="sa_can_create">Can create?</label>
+                                                    <select id="sa_can_create" name="sa_can_create" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="sa_can_view">Can view?</label>
+                                                    <select id="sa_can_view" name="sa_can_view" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="sa_can_edit">Can edit?</label>
+                                                    <select id="sa_can_edit" name="sa_can_edit" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="sa_can_delete">Can delete?</label>
+                                                    <select id="sa_can_delete" name="sa_can_delete" class="form-control">
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="saBtnAdd">&nbsp;</label>
+                                                    <div class="form-group">
+                                                        <button id="saBtnAdd" name="saBtnAdd" type="submit" class="btn btn-block btn-success"><i class="fas fa-plus"></i>&nbsp;&nbsp;Add</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </form>
+                                <table id="sa_table" class="table table-bordered table-hover">
+                                    @Html.Action("UpdateSectionTable", "SystemRole", new { system_role_id = @system_role.id, system_web_module_id = 0 })
+                                </table>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+

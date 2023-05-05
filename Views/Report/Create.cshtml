@@ -1,0 +1,326 @@
+﻿@using DMS.Models;
+@{
+    IEnumerable<System_reference_group_values> report_types = ViewData["report_types"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<System_reference_group_values> sexes = ViewData["sexes"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<System_reference_group_values> age_brackets = ViewData["age_brackets"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<System_reference_group_values> marital_statuses = ViewData["marital_statuses"] as IEnumerable<System_reference_group_values>;
+
+    var ft_ctr = 0;
+    var s_ctr = 0;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2>Create</h2>
+        <hr />
+        <form id="form" method='POST' action='' enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-4 pb-2 form-field">
+                    <label class="form-label" for="rgv_report_type_id">Cyber Complaint Type <code>*</code></label>
+                    <select id="rgv_report_type_id" name="rgv_report_type_id" class="form-control isRequired">
+                        <option value="0">- - PLEASE SELECT ONE - -</option>
+                        @foreach (var item in report_types)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    </select>
+                    <code><small></small></code>
+                </div>
+                <div class="col-md-2 pb-2 form-field">
+                    <label class="form-label" for="date_received">Date Received <code>*</code></label>
+                    <input type="date" id="date_received" name="date_received" class="form-control isRequired">
+                    <code><small></small></code>
+                </div>
+                <div class="col-md-2 pb-2 form-field">
+                    <label class="form-label" for="time_received">Time Received <code>*</code></label>
+                    <input type="time" id="time_received" name="time_received" class="form-control isRequired">
+                    <code><small></small></code>
+                </div>
+                <div class="col-md-4 pb-2 form-field">
+                    <label class="form-label" for="attachments">Attachments</label>
+                    <input type="file" id="attachments" name="attachments[]" class="form-control" multiple>
+                    <code><small></small></code>
+                </div>
+            </div>
+            <!-- Victims Data card -->
+            <div class="card">
+                <div class="card-header border-0 pb-0" style="background-color: #a7a7a7;">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3>VICTIM'S DATA</h3>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <h4 style="color: whitesmoke;"><i><code>Note:</code> Fields marked with<code> * </code>are required.</i></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3 text-left">
+                    <div class="row">
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="last_name">Surname <code>* </code></label>
+                            <input type="text" id="last_name" name="last_name" class="form-control isRequired" placeholder="Enter surname here">
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="first_name">First Name <code>* </code></label>
+                            <input type="text" id="first_name" name="first_name" class="form-control isRequired" placeholder="Enter first name here">
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="middle_name">Middle Name</label>
+                            <input type="text" id="middle_name" name="middle_name" class="form-control" placeholder="Enter middle name here">
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="rgv_age_bracket_id">Age <code>* </code></label>
+                            <select id="rgv_age_bracket_id" name="rgv_age_bracket_id" class="form-control isRequired">
+                                <option value="0">- - PLEASE SELECT ONE - -</option>
+                                @foreach (var item in age_brackets)
+                                {
+                                    <option value="@item.id">@item.name</option>
+                                }
+                            </select>
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="rgv_sex_id">Sex <code>* </code></label>
+                            <select id="rgv_sex_id" name="rgv_sex_id" class="form-control isRequired">
+                                <option value="0">- - PLEASE SELECT ONE - -</option>
+                                @foreach (var item in sexes)
+                                {
+                                    <option value="@item.id">@item.name</option>
+                                }
+                            </select>
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="rgv_marital_status_id">Marital Status <code>* </code></label>
+                            <select id="rgv_marital_status_id" name="rgv_marital_status_id" class="form-control isRequired">
+                                <option value="0">- - PLEASE SELECT ONE - -</option>
+                                @foreach (var item in marital_statuses)
+                                {
+                                    <option value="@item.id">@item.name</option>
+                                }
+                            </select>
+                            <code><small></small></code>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 pb-2">
+                            <label class="form-label" for="is_in_behalf_of_business">Are you reporting on behalf of a business?</label>
+                            <div class="form-group">
+                                <select id="is_in_behalf_of_business" name="is_in_behalf_of_business" class="form-control">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8 pb-2">
+                            <label class="form-label" for="is_impacting_business_operations">Is the incident currently impacting business operations? <code id="req_impacting_business_operations" hidden>*</code></label>
+                            <div class="form-group">
+                                <select id="is_impacting_business_operations" name="is_impacting_business_operations" class="form-control">
+                                    <option value="1">No</option>
+                                    <option value="2">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 pb-2">
+                            <label class="form-label" for="business_name">Business Name <code id="req_business_name" hidden>* </code></label>
+                            <input type="text" id="business_name" name="business_name" class="form-control" placeholder="Enter business name here">
+                            <code><small></small></code>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label" for="country_id">Country <code>* </code></label>
+                            <select id="country_id" name="country_id" class="form-control isRequired" style="width: 100%;">
+                            </select>
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-4 pb-2">
+                            <label class="form-label" for="province_id">Province <code>* </code></label>
+                            <select id="province_id" name="province_id" class="form-control isRequired" style="width: 100%;">
+                            </select>
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-4 pb-2">
+                            <label class="form-label" for="city_id">City <code>* </code></label>
+                            <select id="city_id" name="city_id" class="form-control isRequired" style="width: 100%;">
+                            </select>
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-9 pb-2">
+                            <label class="form-label" for="address1">Address <code>* </code></label>
+                            <input type="text" id="address1" name="address1" class="form-control isRequired" placeholder="Enter address here">
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-3 pb-2">
+                            <label class="form-label" for="zip_code">Zip Code</label>
+                            <input type="text" id="zip_code" name="zip_code" class="form-control" placeholder="Enter zip code here">
+                        </div>
+                        <div class="col-md-6 pb-2">
+                            <label class="form-label" for="mobile_number">Mobile Number <code>(numbers only) *</code></label>
+                            <input type="number" id="mobile_number" name="mobile_number" min="0" class="form-control isRequired" placeholder="09XXXXXXXXX">
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-6 pb-2">
+                            <label class="form-label" for="email">Email Address <code>(janedoe@email.com) *</code></label>
+                            <input type="email" id="email" name="email" class="form-control isRequired" placeholder="Enter email address here">
+                            <code><small></small></code>
+                        </div>
+                        <div class="col-md-6 pb-2">
+                            <label class="form-label" for="business_it_poc">Business IT POC (if applicable)</label>
+                            <input type="text" id="business_it_poc" name="business_it_poc" class="form-control" placeholder="Name, Email, Phone Number, etc..">
+                        </div>
+                        <div class="col-md-6 pb-2">
+                            <label class="form-label" for="other_busines_poc">Other Business POC (if applicable)</label>
+                            <input type="text" id="other_busines_poc" name="other_busines_poc" class="form-control" placeholder="Name, Email, Phone Number, etc..">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+            <!-- Witness's Data card -->
+            <div class="card">
+                <div class="card-header border-0 pb-0" style="background-color: #a7a7a7;">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3>WITNESS'S DATA</h3>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <h4 style="color: whitesmoke;"><i><code>Note:</code> This section is<code> NOT </code> required.</i></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3 text-left">
+                    <div class="row">
+                        <div class="col-md-8 pb-2 form-field">
+                            <label class="form-label" for="w_full_name">Full Name</label>
+                            <input type="text" id="w_full_name" name="w_full_name" class="form-control" placeholder="Enter surname here">
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="w_rgv_age_bracket_id">Age </label>
+                            <select id="w_rgv_age_bracket_id" name="w_rgv_age_bracket_id" class="form-control">
+                                <option value="0">- - PLEASE SELECT ONE - -</option>
+                                @foreach (var item in age_brackets)
+                                {
+                                    <option value="@item.id">@item.name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 pb-2 form-field">
+                            <label class="form-label" for="w_rgv_marital_status_id">Marital Status</label>
+                            <select id="w_rgv_marital_status_id" name="w_rgv_marital_status_id" class="form-control">
+                                <option value="0">- - PLEASE SELECT ONE - -</option>
+                                @foreach (var item in marital_statuses)
+                                {
+                                    <option value="@item.id">@item.name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 pb-2">
+                            <label class="form-label" for="w_email">Email Address <code>(janedoe@email.com)<small></small></code></label>
+                            <input type="email" id="w_email" name="w_email" class="form-control" placeholder="Enter email address here">
+                        </div>
+                        <div class="col-md-4 pb-2">
+                            <label class="form-label" for="w_mobile_number">Mobile Number <code>(numbers only)<small></small></code></label>
+                            <input type="number" id="w_mobile_number" name="w_mobile_number" min="0" class="form-control" placeholder="09XXXXXXXXX">
+                        </div>
+                        <div class="col-md-12 pb-2">
+                            <label class="form-label" for="w_full_address">Full Address</label>
+                            <input type="text" id="w_full_address" name="w_full_address" min="0" class="form-control" placeholder="Enter address here">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+            <!-- Financials Transaction card -->
+            <div class="card">
+                <div class="card-header border-0 pb-0" style="background-color: #a7a7a7;">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3>FINANCIAL TRANSACTION(S)</h3>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <h4 style="color: whitesmoke;"><i><code>Note:</code> Fields marked with<code> * </code>are required.</i></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3 text-left">
+                    <input type="hidden" id="ft_ctr" name="ft_ctr" value="@ft_ctr" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table id="ft_table" style="padding: 5px; width:100%; margin-bottom: 5px;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" name="ft_add" id="ft_add" class="btn btn-success float-right"> Add New</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+            <!-- Suspect card -->
+            <div class="card">
+                <div class="card-header border-0 pb-0" style="background-color: #a7a7a7;">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3>SUSPECT'S DATA</h3>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+                        <div class="col-md-6">
+                            <h4 style="color: whitesmoke;"><i><code>Note:</code> This section is <code> NOT </code> required.</i></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body pt-3 text-left">
+                    <div class="row">
+
+                        <input type="hidden" id="s_ctr" name="s_ctr" value="@s_ctr" />
+                        <div class="col-md-12">
+                            <table id="s_table" style="padding: 5px; width:100%; margin-bottom: 5px;">
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" name="s_add" id="s_add" class="btn btn-success float-right"> Add New</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body-->
+            </div>
+            <!-- /.card -->
+            <div class="text-center">
+                <a href="@Url.Action("Index","Report")" class="btn btn-danger">Back</a>
+                &nbsp;
+                &nbsp;
+                <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+

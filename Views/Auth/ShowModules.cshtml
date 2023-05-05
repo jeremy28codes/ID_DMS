@@ -1,0 +1,35 @@
+﻿@model IEnumerable<DMS.Models.System_user_role_module_access>
+
+@foreach (var item in Model)
+{
+    if (item.system_web_module_link != "")
+    {
+        <li class="nav-item">
+            <a href="@Url.Action("Index",item.system_web_module_link)" class="nav-link @(Session["active_module"].ToString()==item.system_web_module_name?"active":"")">
+                <i class="nav-icon @item.system_web_module_icon"></i>
+                <p>
+                    @item.system_web_module_name
+                </p>
+            </a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item @(Session["active_module"].ToString()==item.system_web_module_name?"menu-open":"")">
+            <a href="#" class="nav-link @(Session["active_module"].ToString()==item.system_web_module_name?"active":"")">
+                <i class="nav-icon @item.system_web_module_icon"></i>
+                <p>
+                    @item.system_web_module_name
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                @Html.Action("ShowSections", "Auth", new { web_module_id = item.system_web_module_id })
+            </ul>
+        </li>
+    }
+
+
+
+}
+

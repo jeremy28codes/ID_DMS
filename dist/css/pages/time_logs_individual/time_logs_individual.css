@@ -1,0 +1,19 @@
+﻿@media print {
+    @page {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    body {
+        padding-top: 40px;
+        padding-bottom: 50px ;
+    }
+
+    .print_only {
+        display: block;
+    }
+}
+@media screen {
+    .print_only {
+        display: none;
+    }
+}

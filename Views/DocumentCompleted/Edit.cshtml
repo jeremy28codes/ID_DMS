@@ -1,0 +1,207 @@
+﻿@using DMS.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<System_reference_group_values> document_types = ViewData["document_types"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<Document_attachments> attachments = ViewData["attachments"] as IEnumerable<Document_attachments>;
+    Documents document = ViewData["document"] as Documents;
+    IEnumerable<Document_route_logs> document_route_logs_dt = ViewData["document_route_logs_dt"] as IEnumerable<Document_route_logs>;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">@document.reference_number</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <strong>Title</strong>
+
+                        <p class="text-muted">
+                            @document.title
+                        </p>
+
+                        <hr>
+
+                        <strong>Document Particular Status</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-danger">@document.rgv_document_particular_name</span>
+                        </p>
+
+                        <hr>
+
+                        <strong>Document Type</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-danger">@document.rgv_document_type_name</span>
+                        </p>
+
+                        <hr>
+
+                        <strong>Document Status</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-danger">@document.rgv_document_status_name</span>
+                        </p>
+
+                        <hr>
+
+                        <strong>Date Completed</strong>
+
+                        <p class="text-muted">
+                            @if (document.completed_at != "")
+                            {
+                                <span class="tag tag-danger">@document.completed_at</span>
+                            }
+                            else
+                            {
+                                <span class="tag tag-danger">N/A</span>
+                            }
+
+                        </p>
+
+                        <hr>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#info" data-toggle="tab">Info</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#doc_attachments" data-toggle="tab">Attachments</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="info">
+                                <form id="form" class="form-horizontal" method='POST' action='' enctype="multipart/form-data">
+                                    <input type="hidden" id="id" name="id" value="@document.id" />
+                                    <div class="form-group row">
+                                        <label for="reference_number" class="col-sm-2 col-form-label">Reference #</label>
+                                        <div class="col-sm-2 pb-2">
+                                            <input type="text" id="reference_number" name="reference_number" class="form-control" value="@document.reference_number" placeholder="Enter reference number">
+                                        </div>
+                                        <div class="col-sm-2 pb-2">
+                                            <input type="text" id="routing_number" name="routing_number" class="form-control" value="@document.routing_number" placeholder="Enter routing number">
+                                        </div>
+                                        <label for="rgv_document_type_id" class="col-sm-2 col-form-label">Document Type</label>
+                                        <div class="col-sm-4 pb-2">
+                                            <select id="rgv_document_type_id" name="rgv_document_type_id" class="form-control">
+                                                <option value="0" @(document.rgv_document_type_id == 0 ? " selected" : "")>--SELECT DOCUMENT TYPE--</option>
+                                                @foreach (var item in document_types)
+                                                {
+                                                    <option value="@item.id" @(document.rgv_document_type_id == item.id ? " selected" : "")>@item.name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="title" class="col-sm-2 col-form-label">Title</label>
+                                        <div class="col-sm-10 pb-2">
+                                            <input type="text" id="title" name="title" class="form-control" value="@document.title" placeholder="Enter title">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="document_remarks" class="col-sm-2 col-form-label">Document Description</label>
+                                        <div class="col-sm-10 pb-2">
+                                            <textarea id="document_remarks" name="document_remarks" class="form-control" rows="2" placeholder="Enter description here...">@document.remarks</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="attachments" class="col-sm-2 col-form-label">Upload attachments</label>
+                                        <div class="col-sm-10 pb-2">
+                                            <input type="file" id="attachments" name="attachments[]" class="form-control" multiple>
+                                        </div>
+                                    </div>
+                                    <div class="form-group justify-content-center row">
+                                        <a href="@Url.Action("Index","DocumentCompleted")" class="btn btn-danger">Back</a>
+                                        &nbsp;
+                                        &nbsp;
+                                        <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+
+
+                            <div class="tab-pane" id="doc_attachments">
+                                <table id="table" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                ID
+                                            </th>
+                                            <th>
+                                                File Name
+                                            </th>
+                                            <th>
+                                                File Location
+                                            </th>
+                                            <th width="15%">Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in attachments)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.id
+                                                </td>
+                                                <td>
+                                                    @item.file_name
+                                                </td>
+                                                <td>
+                                                    @item.file_path
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <a class="btn btn-info mb-2" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/@item.file_path" target="_blank"><i class="fas fa-eye"></i></a>
+
+                                                    <a id="delete" href="javascript:void(0);" data-id="@item.id" class="btn btn-danger mb-2">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="timeline">
+                                <!-- The timeline -->
+                                <div class="timeline timeline-inverse">
+                                    @foreach (var item in document_route_logs_dt)
+                                    {
+                                        <div class="time-label">
+                                            <span class="bg-danger">
+                                                @item.sroute_date
+                                            </span>
+                                        </div>
+
+                                        @Html.Action("RouteHistoryByDate", "DocumentCompleted", new { document_id = document.id, dateTime = item.route_date })
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+

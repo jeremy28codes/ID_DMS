@@ -1,0 +1,44 @@
+﻿@using DMS.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<System_User_TimeLogs> employee_names = ViewData["employee_names"] as List<System_User_TimeLogs>;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2>Print Time Logs</h2>
+        <hr />
+        <form id="form">
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="form-label" for="Employee_Name">Employee Name</label>
+                    <div class="form-group">
+                        <select id="Employee_Name" name="Employee_Name" class="form-control">
+                            <option value="">--NO SELECTION--</option>
+                            @foreach (var item in employee_names)
+                            {
+                                <option value="@item.Employee_Name">@item.Employee_Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 dates">
+                    <label for="DTFrom">Date From</label>
+                    <input type="date" id="DTFrom" name="DTFrom" class="form-control">
+                </div>
+                <div class="col-md-3 dates">
+                    <label for="DTTo">Date To</label>
+                    <input type="date" id="DTTo" name="DTTo" class="form-control">
+                </div>
+                <div class="col-md-1 dates">
+                    <label class="form-label" for="Employee_Name">&nbsp;</label>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Print</button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        </form>
+    </div>
+</div>

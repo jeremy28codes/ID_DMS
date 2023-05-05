@@ -1,0 +1,56 @@
+﻿@using DMS.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<System_users> sys_users = ViewData["sys_users"] as IEnumerable<System_users>;
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h2>Print Individual</h2>
+        <hr />
+        @using (Html.BeginForm("Print", "TimeLogsIndividual", FormMethod.Post, new { target = "_blank" }))
+        {
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label" for="system_user_id">Employee Name</label>
+                    <div class="form-group">
+                        <select id="system_user_id" name="system_user_id" class="form-control">
+                            <option value="0">--NO SELECTION--</option>
+                            @foreach (var item in sys_users)
+                            {
+                                <option value="@item.id">@item.last_name, @item.first_name @item.middle_name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label id="lblInCharge" name="lblInCharge" class="form-label" for="in_charge">In Charge Name</label>
+                    <div class="form-group">
+                        <input type="text" id="in_charge" name="in_charge" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label id="lblDate_From" name="lblDate_From" for="date_from">Date From</label>
+                        <input type="date" id="date_from" name="date_from" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label id="lblDate_To" name="lblDate_To" for="date_to">Date To</label>
+                        <input type="date" id="date_to" name="date_to" class="form-control" required>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="btnPrint">&nbsp;</label>
+                    <button id="btnPrint" name="btnPrint" type="submit" formtarget="_blank" class="btn btn-block btn-success">Print</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

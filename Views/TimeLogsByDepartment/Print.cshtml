@@ -1,0 +1,342 @@
+﻿@using DMS.Models;
+
+@{
+    IEnumerable<System_users> system_user_data = ViewData["sys_users"] as IEnumerable<System_users>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/img/cicc logo.png"
+          type="image/x-icon">
+    <title>CICC - DMS | Print By Department</title>
+
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/plugins/sweetalert2/sweetalert2.min.css">
+    <link rel="stylesheet" href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/css/adminlte.min.css">
+    <link href="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/css/pages/time_logs_individual/time_logs_individual.css" rel="stylesheet" />
+
+    <script type="text/javascript" hidden>
+        const base_url = "@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")";
+    </script>
+</head>
+<div class="print_only">
+    <body>
+        <div class="print_only">
+            <main>
+                <div class="container">
+                    <!-- Header and Logo -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table style="font-family: 'Times New Roman'; border-collapse: collapse; width:100%;">
+                                <thead>
+                                    <tr>
+                                        <td rowspan="5" style="text-align: right; margin: 0 auto; padding: 0 auto;"><img src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/img/cicc-logo.png" alt="" style="max-height: 80px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b>REPUBLIC OF THE PHILIPPINES</b></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;"><p style="font-size: 15px; margin: 0 auto; padding: 0 auto;"><b>CYBERCRIME INVESTIGATION AND COORDINATING CENTER</b></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;"><p style=" font-size: 12px; margin: 0 auto; padding: 0 auto;"><i>#49 Don A. Roces Ave., Brgy. Paligsahan, Quezon City</i></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center;"><p style=" font-size: 12px; margin: 0 auto; padding: 0 auto;"><i>(02) 7091 9513 www.cicc.gov.ph</i></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="padding-top: 10px;"><img src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/dist/img/borderline.png" alt="" style="width: 100%;"></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Header Logo -->
+                    <div class="row" style="height: 5px;">
+                    </div>
+                    <div class="row">
+                        <div style="width: 50%;">
+                            <table style=" border-collapse: collapse; font-family: 'Arial'; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <td style="text-align: left;" colspan="3"><p style="font-size: 8px; margin: 0 auto; padding: 0 auto;"><i>Civil Service Form No. 48</i></p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="text-align: center;" colspan="3"><p style="font-size: 15px; margin: 0 auto; padding: 0 auto;"><b>DAILY TIME RECORD</b></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top:5px;" colspan="3"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%; border-bottom: 1px solid;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b><?php echo strtoupper($first_name); ?> <?php echo $middle_name; ?> <?php echo strtoupper($last_name); ?></b></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; padding-bottom:10px;" colspan="3"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;">(Name)</p></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div style="width: 50%;">
+                            <table style="font-family: 'Arial'; border-collapse: collapse; width:100%;">
+                                <thead>
+                                    <tr>
+                                        <td style="text-align: left; width: 30%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;">For the month of </p></td>
+                                        <td style="text-align: center; width: 70%; border-bottom: 1px solid;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><b><?php echo $strmonth; ?> <?php echo $day_from; ?> - <?php echo $day_to; ?>, <?php echo $year; ?> </b></p></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="height: 10px;"></div>
+                    <div class="row">
+                        <div style="width: 50%;">
+                            <table style="font-family: 'Arial'; border-collapse: collapse; width:100%; padding-top: 10px;">
+                                <thead>
+                                    <tr>
+                                        <td rowspan="3" style="text-align: center;  width: 50%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><i>Office hours for Arrival<br />and Departure</i></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right; width: 25%;"><p style="font-size: 9px; margin: 0 auto; padding: 0 auto; padding-right: 10px;"><i>Regular Days</i></p></td>
+                                        <td style="text-align: left; width: 25%; border-bottom: 1px solid;"><p style="font-size: 8px; margin: 0 auto; padding: 0 auto;"><i></i></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;  width: 25%;"><p style="font-size: 9px; margin: 0 auto; padding: 0 auto; padding-right: 10px;"><i>Saturdays</i></p></td>
+                                        <td style="text-align: left; width: 25%; border-bottom: 1px solid;"><p style="font-size: 8px; margin: 0 auto; padding: 0 auto;"><i></i></p></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="height: 5px;"></div>
+                    <div class="row">
+                        <div style="width: 50%;">
+                            <table style="font-family: 'Arial'; border-collapse: collapse; width:100%; font-size: 9px;">
+                                <thead>
+                                    <tr>
+                                        <td style="text-align: center; border: 1px solid; width:10%;" rowspan="2" colspan="2"><p style=" margin: 0 auto; padding: 0 auto;"><b>Days</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:30%;" colspan="2"><p style=" margin: 0 auto; padding: 0 auto;"><b>A.M.</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:30%;" colspan="2"><p style=" margin: 0 auto; padding: 0 auto;"><b>P.M.</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:30%;" colspan="2"><p style=" margin: 0 auto; padding: 0 auto;"><b>Undertime</b></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"><p style=" margin: 0 auto; padding: 0 auto;"><b>IN</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"><p style=" margin: 0 auto; padding: 0 auto;"><b>OUT</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"><p style=" margin: 0 auto; padding: 0 auto;"><b>IN</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"><p style=" margin: 0 auto; padding: 0 auto;"><b>OUT</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"><p style=" margin: 0 auto; padding: 0 auto;"><b>Hours</b></p></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"><p style=" margin: 0 auto; padding: 0 auto;"><b>Minutes</b></p></td>
+                                    </tr>
+                                    <?php for ($x = 1; $x <= $last_day; $x++): ?>
+                                    <?php $strDate =  strval($year)."-".strval($month)."-".strval($x);
+                                    $dt = DateTime::createFromFormat("Y-m-d", $strDate)->format("Y-m-d");
+
+                                    $first_in = $this->M_user_daily_log->get_first_in_by_date($id,$dt);
+                                    $log_in = isset($first_in[0]->log_time) && $first_in[0]->log_time ? str_replace('PM','',str_replace('AM','',date('h:i A', strtotime($first_in[0]->log_time)))) : '';
+
+                                    $last_out = $this->M_user_daily_log->get_last_out_by_date($id,$dt);
+                                    $log_out = isset($last_out[0]->log_time) && $last_out[0]->log_time ? str_replace('PM','',str_replace('AM','',date('h:i A', strtotime($last_out[0]->log_time)))) : '';
+
+                                    //$first_in = $this->M_user_daily_log->get_first_in_by_date($id,$dt);
+                                    // $last_out = $this->M_user_daily_log->get_last_out_by_date($id,$dt);
+
+                                    //echo json_encode($first_in);
+                                    ?>
+                                    <?php if($x>=$day_from&&$x<=$day_to): ?>
+                                    <!-- SATURDAYS AND SUNDAYS -->
+                                    <?php if((date('N', strtotime($dt)) >= 6)): ?>
+                                    <tr>
+                                        <td style="text-align: center; border: 1px solid; width:10%;" colspan="2"><b><?php echo $x;?></b></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;" colspan="4">
+                                            <?php
+                                            if((date('N', strtotime($dt)) == 6))
+                                            echo 'Saturday';
+                                            elseif((date('N', strtotime($dt)) == 7))
+                                            echo 'Sunday';
+                                            ?>
+                                        </td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                    </tr>
+                                    <?php else: ?>
+
+                                    <?php if($log_in==='' && $log_out===''): ?>
+                                    <tr>
+                                        <td style="text-align: center; border: 1px solid; width:10%;" colspan="2"><b><?php echo $x;?></b></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;" colspan="4">
+                                            <!-- EMPTY ONLY -->
+                                        </td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                    </tr>
+                                    <?php else: ?>
+                                    <tr>
+                                        <td style="text-align: center; border: 1px solid; width:10%;" colspan="2"><b><?php echo $x;?></b></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;">
+                                            <?php
+                                            if(isset($first_in[0]->log_time) && $first_in[0]->log_time!=='')
+                                            echo $log_in ; else echo ' ';
+                                            ?>
+                                        </td> <!-- AM IN -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;">
+                                            <?php
+                                            if(isset($first_in[0]->log_time) && $first_in[0]->log_time!=='')
+                                            echo '12:00'; else echo ' ';
+                                            ?>
+                                        </td> <!-- AM OUT -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;">
+                                            <?php
+                                            if(isset($last_out[0]->log_time) && $last_out[0]->log_time!=='')
+                                            echo '01:00'; else echo ' ';
+                                            ?>
+                                        </td> <!-- PM IN -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;">
+                                            <?php
+                                            if(isset($last_out[0]->log_time) && $last_out[0]->log_time!=='')
+                                            echo $log_out; else echo ' ';
+                                            ?>
+                                        </td> <!-- PM OUT -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                    </tr>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                    <?php else: ?>
+                                    <tr>
+                                        <td style="text-align: center; border: 1px solid; width:10%;" colspan="2"><b><?php echo $x;?></b></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;">N/A</td> <!-- AM IN -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;">N/A</td> <!-- AM OUT -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;">N/A</td> <!-- PM IN -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;">N/A</td> <!-- PM OUT -->
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                    </tr>
+                                    <?php endif; ?>
+                                    <?php endfor; ?>
+                                    <tr>
+                                        <td style="text-align: right; border: 1px solid; width:15%; padding-right: 10px;" colspan="6">Total</td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                        <td style="text-align: center; border: 1px solid; width:15%;"></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="rows">
+                        <div style="width: 50%;">
+                            <p style="font-family: 'Arial'; font-size: 8px; margin: 0 auto; padding: 0 auto;">
+                                <i>
+                                    I certify on my honor that the above is a true and correct report of the hours of work performed, <br />record of which was made daily at the time of Arrival and Departure from the office.
+                                </i>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- ASIGNATORY  -->
+                    <div class="rows">
+                        <div style="width: 50%;">
+                            <table style=" border-collapse: collapse; font-family: 'Arial'; width: 100%;">
+                                <thead>
+                                    <tr><td style="height: 30px;"></td></tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%; border-bottom: 1px solid;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b><?php echo strtoupper($first_name); ?> <?php echo isset($middle_name) ? strtoupper(substr($middle_name,0,1).'.') : ''; ?> <?php echo strtoupper($last_name); ?></b></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><i>Verified as to the prescribed office hours</i></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+
+                                    <?php if($department_id==1): ?> <!-- FINANCE DIVISION -->
+                                    <tr><td style="height: 60px;"></td></tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%; border-bottom: 1px solid;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b> </b></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><i> </i></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <?php elseif($department_id==2): ?>  <!-- INVESTIGATION DIVISION -->
+
+                                    <tr><td style="height: 25px;"></td></tr>
+                                    <?php if($id==7): ?> <!-- Sir Cleo -->
+                                    <tr>
+                                        <td style="width:15%;"></td>
+                                        <td style="text-align: center; width: 65%; border-bottom: 1px solid;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b>PMGEN MARVIN MANUEL P. PEPINO</b></p></td>
+                                        <td style="width:15%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><i>OIC-Executive Director</i></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <?php else: ?>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%; border-bottom: 1px solid;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b>CLEO B. DONGGA-AS</b></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><i>Chief, Investigation Division</i></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <?php endif; ?>
+                                    <?php else: ?>
+                                    <tr><td style="height: 60px;"></td></tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%; border-bottom: 1px solid;"><p style="font-size: 12px; margin: 0 auto; padding: 0 auto;"><b> </b></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:20%;"></td>
+                                        <td style="text-align: center; width: 60%;"><p style="font-size: 10px; margin: 0 auto; padding: 0 auto;"><i> </i></p></td>
+                                        <td style="width:20%;"></td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main><!-- End #main -->
+            <!-- <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a> -->
+            <!-- Vendor JS Files -->
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    window.onafterprint = window.close;
+                    window.print();
+                });
+            </script>
+            <script src="<?php echo base_url();?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="<?php echo base_url();?>assets/vendor/tinymce/tinymce.min.js"></script>
+            <script src="<?php echo base_url();?>assets/js/login.js"></script>
+
+            <script src="<?php echo base_url();?>assets/js/main.js"></script>
+            <!-- Template Main JS File
+
+            -->
+        </div>
+    </body>
+
+</div>
+
+</html>
+
+

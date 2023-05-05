@@ -1,0 +1,66 @@
+﻿@using DMS.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<System_reference_groups> system_reference_groups = ViewData["system_reference_groups"] as IEnumerable<System_reference_groups>;
+    System_reference_group_values system_reference_group_value = ViewData["system_reference_group_value"] as System_reference_group_values;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2>Edit</h2>
+        <hr />
+        <form id="form">
+            <input type="hidden" id="id" name="id" value="@system_reference_group_value.id" />
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="form-label" for="system_reference_group_id">Reference Group</label>
+                    <div class="form-group">
+                        <select id="system_reference_group_id" name="system_reference_group_id" class="form-control">
+                            <option value="0" @(system_reference_group_value.system_reference_group_id == 0 ? "selected" : "")>--SELECT ALL--</option>
+                            @foreach (var item in system_reference_groups)
+                            {
+                                <option value="@item.id" @(system_reference_group_value.system_reference_group_id == item.id ? "selected" : "")>@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="ctr">Sequence</label>
+                        <input type="number" id="ctr" name="ctr" class="form-control" placeholder="Enter sequence" value="@system_reference_group_value.ctr">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="code">Code</label>
+                        <input type="text" id="code" name="code" class="form-control" placeholder="Enter code" value="@system_reference_group_value.code">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter name" value="@system_reference_group_value.name">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" name="description" class="form-control" placeholder="Enter description" value="@system_reference_group_value.description">
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div class="text-center">
+                <a href="@Url.Action("Index","SystemReferenceGroupValue")" class="btn btn-danger">Back</a>
+                &nbsp;
+                &nbsp;
+                <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

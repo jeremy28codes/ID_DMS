@@ -1,0 +1,97 @@
+﻿@model IEnumerable<DMS.Models.Reports>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between">
+            <h3>Datatable</h3>
+            <a href="@Url.Action("Create","Report")" class="btn btn-secondary"><i class="fa fa-plus"></i>&nbsp; Create</a>
+        </div>
+        <hr />
+        <table id="table" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Reference Number
+                    </th>
+                    <th>
+                        Report Type
+                    </th>
+                    <th width="10%">
+                        Date Recieved
+                    </th>
+                    <th width="10%">
+                        Time Received
+                    </th>
+                    <th width="10%">
+                        Date Started
+                    </th>
+                    <th width="10%">
+                        Date Completed
+                    </th>
+                    <th width="15%">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.reference_number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.rgv_report_type_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.date_received)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.time_received)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.started_at)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.completed_at)
+                    </td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Edit", "Report", new {id = item.id})" class="btn btn-primary">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="nav-icon fas fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                <a href="@Url.Action("Assign_Agent", "Report", new {id = item.id})" class="dropdown-item">Assign To</a>
+                                <a href="@Url.Action("Add_Assessment", "Report", new {id = item.id})" class="dropdown-item">Add Assessment</a>
+                                @*<a class="dropdown-divider"></a>*@
+                                <a id="delete" href="javascript:void(0);" data-id="@item.id" class="dropdown-item">Delete</a>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <i class="nav-icon fas fa-file"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                <a href="@Url.Action("Print_ComplaintForm", "Report", new {report_id = item.id})" target="_blank" class="dropdown-item">Print Complaint Form</a>
+                                <a href="@Url.Action("Print_AssessmentForm", "Report", new {id = item.id})" target="_blank" class="dropdown-item">Print Assessment Form</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

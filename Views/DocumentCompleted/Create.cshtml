@@ -1,0 +1,84 @@
+﻿@using DMS.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<System_reference_group_values> document_types = ViewData["document_types"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<System_reference_group_values> document_statuses = ViewData["document_statuses"] as IEnumerable<System_reference_group_values>;
+    Documents document = ViewData["document"] as Documents;
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2>Create</h2>
+        <hr />
+        <form id="form" class="form-horizontal" method='POST' action='' enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <label for="routing_number" class="col-sm-2 col-form-label">Routing # & Title</label>
+                <div class="col-sm-3 pb-2">
+                    <input type="text" id="routing_number" name="routing_number" class="form-control" placeholder="Enter routing number">
+                </div>
+                <div class="col-sm-7 pb-2">
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Enter document title">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="document_remarks" class="col-sm-2 col-form-label">Document Description</label>
+                <div class="col-sm-10 pb-2">
+                    <textarea id="document_remarks" name="document_remarks" class="form-control" rows="2" placeholder="Enter description here..."></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="route_date" class="col-sm-2 col-form-label">Date & Time</label>
+                <div class="col-sm-2 pb-2">
+                    <input type="date" id="route_date" name="route_date" class="form-control">
+                </div>
+                <div class="col-sm-2 pb-2">
+                    <input type="time" id="route_time" name="route_time" class="form-control">
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <select id="rgv_document_type_id" name="rgv_document_type_id" class="form-control">
+                            <option value="0">--SELECT DOCUMENT TYPE--</option>
+                            @foreach (var item in document_types)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <select id="rgv_document_status_id" name="rgv_document_status_id" class="form-control">
+                            <option value="0">--SELECT DOCUMENT STATUS--</option>
+                            @foreach (var item in document_statuses)
+                            {
+                                <option value="@item.id">@item.name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="attachments" class="col-sm-2 col-form-label">Upload attachments</label>
+                <div class="col-sm-10 pb-2">
+                    <input type="file" id="attachments" name="attachments[]" class="form-control" multiple>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="route_remarks" class="col-sm-2 col-form-label">Remarks</label>
+                <div class="col-sm-10 pb-2">
+                    <textarea id="route_remarks" name="route_remarks" class="form-control" rows="2" placeholder="Enter remarks here..."></textarea>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center">
+                <a href="@Url.Action("Index","DocumentCompleted")" class="btn btn-danger">Back</a>
+                &nbsp;
+                &nbsp;
+                <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

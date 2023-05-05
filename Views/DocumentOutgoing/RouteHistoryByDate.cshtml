@@ -1,0 +1,117 @@
+﻿@model IEnumerable<DMS.Models.Document_route_logs>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div>
+            @if (item.rgv_action_type_code == "IN")
+            {
+                <i class="fas fa-envelope bg-primary"></i>
+
+                <div class="timeline-item">
+                    <span class="time"><i class="far fa-clock"></i> @item.route_time</span>
+
+                    @if (item.from_system_division_id == item.to_system_division_id && item.from_name != item.to_name)
+                    {
+                        <h3 class="timeline-header"><a style="color:red;" href="javascripte:void(0);">FORWARDED TO </a> @item.to_system_unit_name - @item.to_name</h3>
+
+                        <div class="timeline-body">
+                            @(item.remarks == "" ? "NO REMARKS" : item.remarks)
+                        </div>
+
+                        <hr class="m-0" />
+                        <div class="d-flex flex-row justify-content-end m-2">
+                            <span class="timeline-header"><i class="fas fa-user"></i>&nbsp; @item.from_name</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <h3 class="timeline-header"><a href="javascripte:void(0);">RECEIVED FROM </a> @item.from_system_division_name - @item.from_name</h3>
+
+                        <div class="timeline-body">
+                            @(item.remarks == "" ? "NO REMARKS" : item.remarks)
+                        </div>
+
+                        <hr class="m-0" />
+                        <div class="d-flex flex-row justify-content-end m-2">
+                            <span class="timeline-header"><i class="fas fa-user"></i>&nbsp; @item.to_name</span>
+                        </div>
+                    }
+
+                </div>
+            }
+            else if (item.rgv_action_type_code == "OUT")
+            {
+                <i class="fas fa-share bg-dark"></i>
+
+                <div class="timeline-item">
+                    <span class="time"><i class="far fa-clock"></i> @item.route_time</span>
+
+                    @if (item.from_system_division_id == item.to_system_division_id && item.from_name != item.to_name)
+                    {
+                        <h3 class="timeline-header"><a style="color:red;" href="javascripte:void(0);">FORWARDED TO </a> @item.to_system_unit_name - @item.to_name</h3>
+
+                        <div class="timeline-body">
+                            @(item.remarks == "" ? "NO REMARKS" : item.remarks)
+                        </div>
+
+                        <hr class="m-0" />
+                        <div class="d-flex flex-row justify-content-end m-2">
+                            <span class="timeline-header"><i class="fas fa-user"></i>&nbsp; @item.from_name</span>
+                        </div>
+                    }
+                    else
+                    {
+
+                        <h3 class="timeline-header"><a href="javascripte:void(0);">OUT TO</a> @item.to_system_division_name - @item.to_name</h3>
+
+                        <div class="timeline-body">
+                            @(item.remarks == "" ? "NO REMARKS" : item.remarks)
+                        </div>
+                        <hr class="m-0" />
+                        <div class="d-flex flex-row justify-content-end m-2">
+                            <span class="timeline-header"><i class="fas fa-user"></i>&nbsp; @item.from_name</span>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <i class="fas fa-folder bg-green"></i>
+
+                <div class="timeline-item">
+                    <span class="time"><i class="far fa-clock"></i> @item.route_time</span>
+
+                    @if (item.from_system_division_id == item.to_system_division_id && item.from_name != item.to_name)
+                    {
+                        <h3 class="timeline-header"><a style="color:red;" href="javascripte:void(0);">FORWARDED TO </a> @item.to_system_unit_name - @item.to_name</h3>
+
+                        <div class="timeline-body">
+                            @(item.remarks == "" ? "NO REMARKS" : item.remarks)
+                        </div>
+
+                        <hr class="m-0" />
+                        <div class="d-flex flex-row justify-content-end m-2">
+                            <span class="timeline-header"><i class="fas fa-user"></i>&nbsp; @item.from_name</span>
+                        </div>
+                    }
+                    else
+                    {
+
+                        <h3 class="timeline-header"><a href="javascripte:void(0);">COMPLETED</a> </h3>
+
+                        <div class="timeline-body">
+                            @(item.remarks == "" ? "NO REMARKS" : item.remarks)
+                        </div>
+                        <hr class="m-0" />
+                        <div class="d-flex flex-row justify-content-end m-2">
+                            <span class="timeline-header"><i class="fas fa-user"></i>&nbsp; @item.created_by</span>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+}

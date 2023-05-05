@@ -1,0 +1,252 @@
+﻿@using DMS.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IEnumerable<System_departments> system_departments = ViewData["system_departments"] as IEnumerable<System_departments>;
+    IEnumerable<System_divisions> system_divisions = ViewData["system_divisions"] as IEnumerable<System_divisions>;
+    IEnumerable<System_units> system_units = ViewData["system_units"] as IEnumerable<System_units>;
+    IEnumerable<System_reference_group_values> sex = ViewData["sex"] as IEnumerable<System_reference_group_values>;
+    IEnumerable<System_roles> system_roles = ViewData["system_roles"] as IEnumerable<System_roles>;
+    System_user_roles system_user_role = ViewData["system_user_role"] as System_user_roles;
+    System_users system_user_data = ViewData["system_user_data"] as System_users;
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">@system_user_data.reference_number</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle"
+                                 src="@Request.Url.GetLeftPart(UriPartial.Authority)@Url.Content("~/")/@system_user_data.pic_img_path"
+                                 alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center">@system_user_data.prefix @system_user_data.first_name @system_user_data.last_name @system_user_data.suffix</h3>
+
+                        <p class="text-muted text-center">@system_user_data.job_title</p>
+
+                    </div>
+                    <div class="card-body">
+                        <strong><i class="fas fa-book mr-1"></i> About</strong>
+
+                        <p class="text-muted">
+                            @system_user_data.about
+                        </p>
+
+                        <hr>
+
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+                        <p class="text-muted">@system_user_data.address</p>
+
+                        <hr>
+
+                        <strong>Department</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-danger">@system_user_data.department_name</span>
+                        </p>
+
+                        <hr>
+
+                        <strong>Division</strong>
+
+                        <p class="text-muted">
+                            <span class="tag tag-danger">@system_user_data.division_name</span>
+                        </p>
+
+                        <hr>
+
+                        @*<strong>Unit</strong>
+
+            <p class="text-muted">
+                <span class="tag tag-danger">@system_user_data.unit_name</span>
+            </p>
+
+            <hr>
+
+            <strong>Section</strong>
+
+            <p class="text-muted">
+                <span class="tag tag-danger">@system_user_data.section_name</span>
+            </p>*@
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#tab_password" data-toggle="tab">Username and Password</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="profile">
+                                <form id="form" class="form-horizontal" method='POST' action='' enctype="multipart/form-data">
+                                    <input type="hidden" id="id" name="id" value="@system_user_data.id" />
+                                    <div class="form-group row">
+                                        <label for="prefix" class="col-sm-2 col-form-label">Upload Photo</label>
+                                        <div class="col-sm-6 pb-2">
+                                            <input type="file" id="attachments" name="attachments[]" class="form-control" accept="image/*">
+                                        </div>
+                                        <input type="hidden" id="pic_img_path" name="pic_img_path" value="@system_user_data.pic_img_path" />
+                                        <div class="col-sm-4 pb-2" hidden>
+                                            <select id="system_role_id" name="system_role_id" class="form-control">
+                                                <option value="0" @(system_user_role.role_id == 0 ? " selected" : "")>--NO SELECTION--</option>
+                                                @foreach (var item in system_roles)
+                                                {
+                                                    <option value="@item.id" @(system_user_role.role_id == item.id ? " selected" : "")>@item.name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="prefix" class="col-sm-2 col-form-label">Prefix & Suffix</label>
+                                        <div class="col-sm-2 pb-2">
+                                            <input type="text" id="prefix" name="prefix" class="form-control" placeholder="Enter prefix" value="@(system_user_data.prefix)">
+                                        </div>
+                                        <div class="col-sm-4 pb-2">
+                                            <input type="text" id="suffix" name="suffix" class="form-control" placeholder="Enter suffix" value="@(system_user_data.suffix)">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="reference_number" name="reference_number" class="form-control" placeholder="Enter reference number" value="@(system_user_data.reference_number)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-3 pb-2">
+                                            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Enter first name" value="@(system_user_data.first_name)">
+                                        </div>
+                                        <div class="col-sm-3 pb-2">
+                                            <input type="text" id="middle_name" name="middle_name" class="form-control" placeholder="Enter middle name" value="@(system_user_data.middle_name)">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Enter last name" value="@(system_user_data.last_name)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="job_title" class="col-sm-2 col-form-label">Job Title</label>
+                                        <div class="col-sm-5 pb-2">
+                                            <input type="text" id="job_title" name="job_title" class="form-control" placeholder="Enter job title" value="@(system_user_data.job_title)">
+                                        </div>
+                                        <label for="rgv_sex_id" class="col-sm-1 col-form-label">Sex</label>
+                                        <div class="col-sm-4 pb-2">
+                                            <select id="rgv_sex_id" name="rgv_sex_id" class="form-control">
+                                                <option value="0" @(system_user_data.rgv_sex_id == 0 ? " selected" : "")>--NO SELECTION--</option>
+                                                @foreach (var item in sex)
+                                                {
+                                                    <option value="@item.id" @(system_user_data.rgv_sex_id == item.id ? " selected" : "")>@item.name</option>
+                                                }
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="about" class="col-sm-2 col-form-label">About</label>
+                                        <div class="col-sm-10">
+                                            <textarea id="about" name="about" class="form-control" placeholder="About">@(system_user_data.about)</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="system_department_id" class="col-sm-2 col-form-label">Department</label>
+                                        <div class="col-sm-5">
+                                            <select id="system_department_id" name="system_department_id" class="form-control">
+                                                <option value="0" @(system_user_data.department_id == 0 ? " selected" : "")>--NO SELECTION--</option>
+                                                @foreach (var item in system_departments)
+                                                {
+                                                    <option value="@item.id" @(system_user_data.department_id == item.id ? " selected" : "")>@item.name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <select id="system_division_id" name="system_division_id" class="form-control">
+                                                <option value="0" @(system_user_data.division_id == 0 ? " selected" : "")>--NO SELECTION--</option>
+                                                @foreach (var item in system_divisions)
+                                                {
+                                                    <option value="@item.id" @(system_user_data.division_id == item.id ? " selected" : "")>@item.name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="system_unit_id" class="col-sm-2 col-form-label">Unit</label>
+                                        <div class="col-sm-5">
+                                            <select id="system_unit_id" name="system_unit_id" class="form-control">
+                                                <option value="0" @(system_user_data.unit_id == 0 ? " selected" : "")>--NO SELECTION--</option>
+                                                @foreach (var item in system_units)
+                                                {
+                                                    <option value="@item.id" @(system_user_data.unit_id == item.id ? " selected" : "")>@item.name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group justify-content-center row">
+                                        <button id="btnSubmit" name="btnSubmit" type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane" id="tab_password">
+                                <form id="form_UserPass" class="form-horizontal" method='POST'>
+                                    <input type="hidden" id="user_id" name="user_id" value="@system_user_data.id" />
+                                    <div class="form-group row">
+                                        <label for="username" class="col-sm-3 col-form-label">Username</label>
+                                        <div class="col-sm-6 pb-2">
+                                            <span id="spn_username">
+                                                <input type="text" id="username" name="username" class="form-control" value="@system_user_data.username">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-sm-3 col-form-label">Password</label>
+                                        <div class="col-sm-6 pb-2">
+                                            <input type="password" id="password" name="password" class="form-control" value="@system_user_data.password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="new_password" class="col-sm-3 col-form-label">New Password</label>
+                                        <div class="col-sm-6 pb-2">
+                                            <input type="password" id="new_password" name="new_password" class="form-control" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="confirm_new_password" class="col-sm-3 col-form-label">Confirm New Password</label>
+                                        <div class="col-sm-6 pb-2">
+                                            <input type="password" id="confirm_new_password" name="confirm_new_password" class="form-control mb-2" value="">
+                                            <input type="checkbox" id="chk_show_passwords" name="chk_show_passwords">
+                                            <label for="chk_show_passwords">Show Passwords</label>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group justify-content-center row">
+                                        <button id="btnChange" name="btnChange" type="submit" class="btn btn-primary">Change</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+
